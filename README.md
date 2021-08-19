@@ -83,3 +83,65 @@
 - Redis mendukung operasi bulk via pipeline, dimana kita bisa mengirim beberapa perintah sekaligus dalam satu request
 - Namun perlu diketahui, server redis tidak akan membalas tiap perintah yang dikirim via pipeline
 - redis-cli --pipeline
+
+**Transaction**
+- Seperti pada database relational, redis juga mendukung transaction
+- Proses transaction adalah proses dimana kita mengirimkan beberapa perintah, dan perintah tersebut akan dianggap sukses jika semua perintah sukses, jika salah satu gagal maka semua perintah harus dibatalkan
+
+**Operasi Transaction**
+- | Operasi | Keterangan                                |
+  |---------|-------------------------------------------|
+  | multi   | Mark the start of a transaction block     |
+  | exec    | Execute all commands issued after MULTI   |
+  | discard | Discard all commands issued after MULTI   |
+
+**Monitor**
+- Kadang ada kasus kita ingin mendebug aplikasi saat berkomunikasi dengan redis
+- Redis memiliki fitur monitor, yaitu fitur untuk memonitor semua request yang masuk ke redis server
+- Dengan fitur ini kita bisa mudah mendebug jika ternyata ada perintah yang salah yang dikirim oleh aplikasi kita ke redis server
+
+**Operasi Monitor**
+- | Operasi   | Keterangan                                                  |
+  |-----------|-------------------------------------------------------------|
+  | monitor   | Listen for all requests received by the server in real time |
+
+**Server Information**
+- Kadang kita butuh mendapatkan informasi dan statistik redis server
+- Seperti jumlah memory yang sudah terpakai, konfigurasi dan lain-lain
+- Redis memiliki fitur ini, sehingga kita sangat mudah untuk mendapat informasi server dan memonitor nya
+
+**Operaasi Server Information**
+- | Operasi | Keterangan                                      |
+  |---------|-------------------------------------------------|
+  | info    | Get information and statistics about the server |
+  | config  | Get the value of a configuration parameter      |
+  | slowlog | Return top entries from the slowlog             |
+
+**Client Connection**
+- Redis menyimpan semua informasi client di server
+- Hal ini memudahkan kita untuk melihat daftar client, dan juga mengecek jika ada anomali, seperti terlalu banyak koneksi client ke redis
+
+**Operasi Client Connection**
+- | Operasi              | Keterangan                                       |
+  |----------------------|--------------------------------------------------|
+  | client list          | Get the list of client connections               |
+  | client id            | Returns the client ID for the current connection |
+  | client kill ip:port  | Kill the connection of a client                  |
+
+**Security**
+- Secara default, ketika kita menyalakan redis server, redis server akan mendengarkan request dari semua network interface. Ini sangat berbahaya, karena bisa jadi redis terekspos secara public
+- Namun, redis punya second layer untuk pengecekan koneksi, yaitu mode protected, secara default mode protectednya aktif, artinya walaupun redis bisa diakses dari manapun, tapi redis hanya mau menerima request dari 127.0.0.1 (localhost)
+
+**Authentication**
+- Authentication adalah proses verifikasi identitas untuk memastikan bahwa yang mengakses adalah identitas yang benar
+- Redis memiliki fitur authentication, dan kita bisa menambahkannya di file konfigurasi di server redis
+- Namun perlu diingat, proses authentication di redis itu sangat cepat, jadi pastikan gunakan password sepanjang mungkin agar tidak mudah untuk di brute force 
+
+**Authorization**
+- Authorization adalah prose memberi hak akses terhadap identitas yang telah berhasil melewati proses authentication
+- Redis mendukung hal ini, jadi kita bisa membatasi hak akses apa saja yang bisa dilakukan oleh identitas yang kita buat
+- https://redis.io/topics/acl
+- https://redis.io/commands/acl-cat
+
+
+
