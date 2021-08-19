@@ -143,5 +143,29 @@
 - https://redis.io/topics/acl
 - https://redis.io/commands/acl-cat
 
+**Persistence**
+- Media penyimpanan utama redis adalah di memory, namun kita bisa menyimpan data di memory redis tersebut di disk jika kita mau
+- Perlu diingat proses penyimpanan data ke disk redis tidak realtime, dia dilakukan secara scheduler dengan konfigurasi tertentu
+- Jadi jangan jadikan redis sebagai media penyimpanan persistence, gunakan redis sebagai database untuk membantu database persistence lainnya
+
+**Operasi Persistence**
+- | Operasi     | Keterangan                               |
+  |-------------|------------------------------------------|
+  | save        | Synchronously save the dataset to disk   |
+  | bgsave      | Asynchronously save the dataset to disk  |
+
+**Ketika Memory Redis Penuh**
+- Ketika memory redis penuh, maka redis secara default akan mereject semua request penyimpanan data
+- Hal ini mungkin menjadi masalah ketika kita hanya menggunakan redis sebagai cache untuk media penyimpanan sementara
+- Kadang akan sangat berguna jika memory penuh, redis bisa secara otomatis menghapus data yang sudah jarang digunakan
+
+**Eviction**
+- Redis mendukung fitur eviction (menghapus data lama, dan menerima data baru)
+- Namun untuk mengaktifkan fitur ini, kita perlu memberi tahu redis, maximum memory yang boleh digunakan, dan bagaimana strategi untuk melakukan eviction nya
+- https://redis.io/topics/lru-cache
+
+
+
+
 
 
